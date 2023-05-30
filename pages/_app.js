@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import Layout from '../layouts/layout'
 import fetchCategories from '../utils/categoryProvider'
+import 'tailwindcss/tailwind.css';
 
 function Ecommerce({ Component, pageProps, categories }) {
   return (

@@ -6,27 +6,28 @@ import { FaLongArrowAltLeft } from "react-icons/fa"
 import Link from "next/link"
 import Image from "../components/Image"
 import { v4 as uuid } from "uuid"
+import Button from '../components/Button'
 
-import {
-  CardElement,
-  Elements,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js"
-import { loadStripe } from "@stripe/stripe-js"
+// import {
+//   CardElement,
+//   Elements,
+//   useStripe,
+//   useElements,
+// } from "@stripe/react-stripe-js"
+// import { loadStripe } from "@stripe/stripe-js"
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe("xxx-xxx-xxx")
+// // Make sure to call `loadStripe` outside of a component’s render to avoid
+// // recreating the `Stripe` object on every render.
+// const stripePromise = loadStripe("xxx-xxx-xxx")
 
 function CheckoutWithContext(props) {
   return (
     <ContextProviderComponent>
       <SiteContext.Consumer>
         {context => (
-          <Elements stripe={stripePromise}>
-            <Checkout {...props} context={context} />
-          </Elements>
+          //  <Elements stripe={stripePromise}>
+          <Checkout {...props} context={context} />
+          // </Elements>
         )}
       </SiteContext.Consumer>
     </ContextProviderComponent>
@@ -41,7 +42,7 @@ const Input = ({ onChange, value, name, placeholder }) => (
   <input
     onChange={onChange}
     value={value}
-    className="mt-2 text-sm shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    className="mt-2 text-sm shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
     type="text"
     placeholder={placeholder}
     name={name}
@@ -60,8 +61,9 @@ const Checkout = ({ context }) => {
     state: "",
   })
 
-  const stripe = useStripe()
-  const elements = useElements()
+  const stripe = false
+  // const stripe = useStripe()
+  // const elements = useElements()
 
   const onChange = e => {
     setErrorMessage(null)
@@ -73,11 +75,11 @@ const Checkout = ({ context }) => {
     const { name, email, street, city, postal_code, state } = input
     const { total, clearCart } = context
 
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return
-    }
+    // if (!stripe || !elements) {
+    // Stripe.js has not loaded yet. Make sure to disable
+    // form submission until Stripe.js has loaded.
+    //   return
+    // }
 
     // Validate input
     if (!street || !city || !postal_code || !state) {
@@ -88,14 +90,16 @@ const Checkout = ({ context }) => {
     // Get a reference to a mounted CardElement. Elements knows how
     // to find your CardElement because there can only ever be one of
     // each type of element.
-    const cardElement = elements.getElement(CardElement)
+    // const cardElement = elements.getElement(CardElement)
 
     // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      billing_details: { name: name },
-    })
+    const error = ''
+    const paymentMethod = ''
+    // const { error, paymentMethod } = await stripe.createPaymentMethod({
+    //   type: "card",
+    //   card: cardElement,
+    //   billing_details: { name: name },
+    // })
 
     if (error) {
       setErrorMessage(error.message)
@@ -182,14 +186,14 @@ const Checkout = ({ context }) => {
               <div className="flex flex-1 pt-8 flex-col">
                 <div className="mt-4 border-t pt-10">
                   <form onSubmit={handleSubmit}>
-                    {errorMessage ? <span>{errorMessage}</span> : ""}
+                    {errorMessage ? <span className='text-red-500'>{errorMessage}</span> : ""}
                     <Input
                       onChange={onChange}
                       value={input.name}
                       name="name"
                       placeholder="Cardholder name"
                     />
-                    <CardElement className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    {/* <CardElement className="mt-2 shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" /> */}
                     <Input
                       onChange={onChange}
                       value={input.email}
@@ -220,15 +224,7 @@ const Checkout = ({ context }) => {
                       name="postal_code"
                       placeholder="Postal Code"
                     />
-                    <button
-                      type="submit"
-                      disabled={!stripe}
-                      onClick={handleSubmit}
-                      className="hidden md:block bg-primary hover:bg-black text-white font-bold py-2 px-4 mt-4 rounded focus:outline-none focus:shadow-outline"
-                      type="button"
-                    >
-                      Confirm order
-                    </button>
+
                   </form>
                 </div>
               </div>
@@ -251,15 +247,15 @@ const Checkout = ({ context }) => {
                     {DENOMINATION + (total + calculateShipping())}
                   </p>
                 </div>
-                <button
-                  type="submit"
-                  disabled={!stripe}
-                  onClick={handleSubmit}
-                  className="md:hidden bg-primary hover:bg-black text-white font-bold py-2 px-4 mt-4 rounded focus:outline-none focus:shadow-outline"
-                  type="button"
-                >
-                  Confirm order
-                </button>
+                <div className='pl-4 pt-2'>
+                  <Button
+                    full
+                    title="Confirm order"
+                    type="submit"
+                    disabled={!stripe}
+                    onClick={handleSubmit}
+                  />
+                </div>
               </div>
             </div>
           </div>

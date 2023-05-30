@@ -15,13 +15,13 @@ class ViewInventory extends React.Component {
   componentDidMount() {
     this.fetchInventory()
   }
-  fetchInventory = async() => {
+  fetchInventory = async () => {
     const inventory = await fetchInventory()
     this.setState({ inventory })
   }
   editItem = (item, index) => {
     const editingIndex = index
-    this.setState({ editingIndex, currentItem: item })    
+    this.setState({ editingIndex, currentItem: item })
   }
   saveItem = async index => {
     const inventory = [...this.state.inventory]
@@ -38,7 +38,7 @@ class ViewInventory extends React.Component {
       ...this.state.currentItem,
       [event.target.name]: event.target.value
     }
-    
+
     this.setState({ currentItem })
   }
   render() {
@@ -60,7 +60,7 @@ class ViewInventory extends React.Component {
                     </Link>
                     <input
                       onChange={(e) => this.onChange(e, index)}
-                      className="ml-8 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className="ml-8 shadow appearance-none border  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={currentItem.name}
                       placeholder="Item name"
                       name="name"
@@ -69,14 +69,14 @@ class ViewInventory extends React.Component {
                       <p className="m-0 text-sm mr-2">In stock:</p>
                       <input
                         onChange={this.onChange}
-                        className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value={currentItem.currentInventory}
                         name="currentInventory"
                         placeholder="Item inventory"
                       />
                       <input
                         onChange={this.onChange}
-                        className="ml-16 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="ml-16 shadow appearance-none border  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value={currentItem.price}
                         name="price"
                         placeholder="Item price"
